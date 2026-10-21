@@ -115,192 +115,25 @@ This project uses the density matrix formalism to represent quantum states and s
 
 A pure qubit state can be represented as
 
-\[
-|\psi\rangle = \alpha|0\rangle+\beta|1\rangle
-\]
+![Psi](screenshots/psi.png)
 
-where:
 
-- \(\alpha\) is the probability amplitude of state \(|0\rangle\).
-- \(\beta\) is the probability amplitude of state \(|1\rangle\).
-- Both amplitudes may be complex numbers.
 
 A valid normalized qubit state satisfies
 
-\[
-|\alpha|^2+|\beta|^2=1
-\]
+![Normalized](screenshots/image.png)
 
-The probability of measuring \(|0\rangle\) is \(|\alpha|^2\), while the probability of measuring \(|1\rangle\) is \(|\beta|^2\).
 
 ### 2. Density Matrix
 
 The density matrix of a pure state is defined as
 
-\[
-\rho=|\psi\rangle\langle\psi|
-\]
+![Density matrix](screenshots/density.png)
 
-For a qubit,
+Here, (*) denotes complex conjugation.
 
-\[
-\rho=
-\begin{bmatrix}
-|\alpha|^2 & \alpha\beta^*\\
-\alpha^*\beta & |\beta|^2
-\end{bmatrix}
-\]
 
-Here, \(^*\) denotes complex conjugation.
-
-The diagonal entries represent the populations of the computational basis states. The off-diagonal entries encode quantum coherence in that basis.
-
-For example, an equal superposition is
-
-\[
-|\psi\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}
-\]
-
-Its density matrix is
-
-\[
-\rho=\frac{1}{2}
-\begin{bmatrix}
-1&1\\
-1&1
-\end{bmatrix}
-\]
-
-The nonzero off-diagonal entries indicate coherence between \(|0\rangle\) and \(|1\rangle\).
-
-### 3. Thermal State
-
-A thermal state describes a quantum system in thermal equilibrium at temperature \(T\).
-
-In general, its density matrix is given by the Gibbs state
-
-\[
-\rho_T=\frac{e^{-H/(k_BT)}}{Z}
-\]
-
-where:
-
-- \(H\) is the system's Hamiltonian.
-- \(k_B\) is the Boltzmann constant.
-- \(T\) is the absolute temperature.
-- \(Z=\operatorname{Tr}(e^{-H/(k_BT)})\) is the partition function.
-
-For the two-level model implemented in this project, the ground-state energy is taken as zero and the excited-state energy is \(\Delta E\). The code uses dimensionless units with \(k_B=1\).
-
-The state populations are calculated using
-
-\[
-p_0=\frac{1}{1+e^{-\Delta E/T}}
-\]
-
-\[
-p_1=1-p_0
-\]
-
-The thermal density matrix is
-
-\[
-\rho_T=
-\begin{bmatrix}
-p_0&0\\
-0&p_1
-\end{bmatrix}
-\]
-
-The energy gap is set to \(\Delta E=1\) by default.
-
-At low temperatures, the ground state becomes more populated. At high temperatures, both energy levels approach equal populations.
-
-Consequently, the density matrix approaches
-
-\[
-\rho_T\longrightarrow
-\begin{bmatrix}
-1/2&0\\
-0&1/2
-\end{bmatrix}
-\]
-
-as \(T\) becomes very large.
-
-**Implementation note:** The model uses dimensionless temperature and energy units rather than explicitly converting temperature in kelvin.
-
-### 4. Dephasing Noise
-
-Dephasing noise reduces the off-diagonal entries of a density matrix without changing its computational-basis populations.
-
-The implementation applies the transformation
-
-\[
-\rho'=
-\begin{bmatrix}
-\rho_{00}&(1-p)\rho_{01}\\
-(1-p)\rho_{10}&\rho_{11}
-\end{bmatrix}
-\]
-
-where \(p\in[0,1]\) is the dephasing strength.
-
-- \(p=0\): No coherence is removed.
-- \(p=0.5\): The off-diagonal entries are reduced by half.
-- \(p=1\): The off-diagonal entries become zero.
-
-For an equal superposition,
-
-\[
-\rho=\frac12
-\begin{bmatrix}
-1&1\\
-1&1
-\end{bmatrix}
-\]
-
-applying \(p=0.5\) produces
-
-\[
-\rho'=\frac12
-\begin{bmatrix}
-1&0.5\\
-0.5&1
-\end{bmatrix}
-\]
-
-The populations remain unchanged, while coherence decreases.
-
-**Convention:** The slider uses the coherence-attenuation parameter \(p\). It is not the same parameterization as the standard phase-flip channel probability \(q\), whose off-diagonal factor is \(1-2q\).
-
-### 5. Purity
-
-Purity measures how mixed or pure a quantum state is.
-
-It is defined as
-
-\[
-\gamma=\operatorname{Tr}(\rho^2)
-\]
-
-For a valid density matrix,
-
-\[
-\frac{1}{d}\leq\gamma\leq1
-\]
-
-where \(d\) is the dimension of the Hilbert space.
-
-For a single qubit:
-
-- \(\gamma=1\): The state is pure.
-- \(\gamma=0.5\): The state is maximally mixed.
-- \(0.5<\gamma<1\): The state is mixed but not maximally mixed.
-
-The project calculates purity using NumPy matrix multiplication and the trace operation.
-
-### 6. Von Neumann Entropy
+### 3. Von Neumann Entropy
 
 Von Neumann entropy quantifies the mixedness of a quantum state.
 
