@@ -4,6 +4,12 @@ An interactive quantum computing project for exploring **qubit states, density m
 
 Built with NumPy, Matplotlib, and Streamlit, this project connects the mathematical representation of quantum states with visual simulations. Users can modify experimental parameters and observe how quantum properties change in real time.
 
+![Interface](screenshots/interface.png)
+
+![Bloch sphere](screenshots/bloch.png)
+
+![Graph](screenshots/graph.png)
+
 ## Overview
 
 Quantum mechanics describes systems that can exist in superpositions of states. In realistic environments, interactions with the surroundings can introduce noise and reduce quantum coherence.
@@ -139,113 +145,22 @@ Von Neumann entropy quantifies the mixedness of a quantum state.
 
 It is defined as
 
-\[
-S(\rho)=-\operatorname{Tr}(\rho\log_2\rho)
-\]
+![Trace](screenshots/trace.png)
 
 Equivalently, using the eigenvalues \(\lambda_i\) of the density matrix,
 
-\[
-S(\rho)=-\sum_i\lambda_i\log_2\lambda_i
-\]
+![eigen](screenshots/eigen.png)
 
 The implementation calculates the eigenvalues numerically and excludes values sufficiently close to zero to avoid evaluating \(\log_2(0)\).
 
-For a qubit:
-
-- \(S=0\) bits for a pure state.
-- \(S=1\) bit for the maximally mixed state.
-
 Entropy and purity provide complementary information about the state. Dephasing an equal superposition increases its entropy and decreases its purity.
 
-### 7. Bloch Sphere Representation
+### 4. Bloch Sphere Representation
 
 The Bloch sphere represents a single-qubit density matrix as a vector in three-dimensional space.
 
-The density matrix can be expressed as
+![Bloch sphere](screenshots/bloch2.png)
 
-\[
-\rho=\frac12(I+r_x\sigma_x+r_y\sigma_y+r_z\sigma_z)
-\]
-
-where \(I\) is the identity matrix and \(\sigma_x,\sigma_y,\sigma_z\) are the Pauli matrices.
-
-The Bloch coordinates are calculated from the density matrix as
-
-\[
-r_x=2\operatorname{Re}(\rho_{01})
-\]
-
-\[
-r_y=-2\operatorname{Im}(\rho_{01})
-\]
-
-\[
-r_z=\rho_{00}-\rho_{11}
-\]
-
-The Bloch vector is
-
-\[
-\vec r=(r_x,r_y,r_z)
-\]
-
-Its length is related to purity by
-
-\[
-\operatorname{Tr}(\rho^2)=\frac{1+|\vec r|^2}{2}
-\]
-
-Therefore:
-
-- \(|\vec r|=1\): The state is pure and lies on the sphere's surface.
-- \(0<|\vec r|<1\): The state is mixed and lies inside the sphere.
-- \(|\vec r|=0\): The state is maximally mixed and lies at the center.
-
-The computational basis states correspond to the poles:
-
-\[
-|0\rangle\rightarrow(0,0,1)
-\]
-
-\[
-|1\rangle\rightarrow(0,0,-1)
-\]
-
-An equal superposition with real, positive amplitudes corresponds to
-
-\[
-\frac{|0\rangle+|1\rangle}{\sqrt2}
-\rightarrow(1,0,0)
-\]
-
-In the application, the Bloch vector is calculated from the **final density matrix**, allowing users to see how dephasing or temperature changes the represented state.
-
-### 8. Coherence Versus Noise Strength
-
-The application plots the magnitude of the off-diagonal element
-
-\[
-C_{\text{plot}}=|\rho_{01}|
-\]
-
-against the dephasing strength \(p\).
-
-Under the implemented dephasing transformation,
-
-\[
-|\rho'_{01}|=(1-p)|\rho_{01}|
-\]
-
-Thus, the plotted value decreases linearly with increasing noise strength for a fixed initial state.
-
-This graph is a measure of one off-diagonal element, rather than the full l1-norm coherence measure. For a single qubit, the l1-norm coherence in the computational basis is
-
-\[
-C_{l_1}(\rho)=|\rho_{01}|+|\rho_{10}|
-\]
-
-For a Hermitian qubit density matrix, this equals \(2|\rho_{01}|\).
 
 ## Experiments to Try
 
@@ -278,7 +193,7 @@ Repeat with \(|1\rangle\), which lies at the south pole.
 Expected result: The Bloch vector moves toward the center along the Z-axis as the two energy-level populations approach equality.
 
 
-## Author
+## Author --->> NAMIT SINGH
 
 Developed as an educational project to explore the mathematical foundations of quantum states, quantum noise, and quantum information through interactive Python simulations.
 
